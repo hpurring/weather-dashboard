@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en-us">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="Weather Dashboard">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="./assets/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.0/css/bootstrap.min.css">
+    <title>Weather Dashboard</title>
+</head>
+
+<body>
+    <header class="page-title text-center">
+        <h1>Weather Dashboard</h1>
+    </header>
+
+    <main class="container">
+    <div class="row justify-content-md-center">
+    <div class="col-2 p-2">
+        <form id="search">
+            <label for="city-search">Search for a city:</label>
+            <br>
+            <input type="text" id="city-name" autofocus="true" class="form-input" />
+            <br><br>
+            <button type="submit" value="Search" id="search-btn">Search</button>
+          </form>
+    </div>
+
+    <div id="search-results" class="col-10">
+        <h2 id="search-term"></h2>
+
+        <div id="city-info">
+            <p>Temperature: <span id="temp"></span>°F</p>
+            <p>Wind: <span id="wind"></span> mph</p>
+            <p>Humidity: <span id="humidity"></span>%</p>
+        </div>
+
+        <div id="forecast" class="row">
+            <div class="card col-2">Card 1</div>
+            <div class="card col-2">Card 2</div>
+            <div class="card col-2">Card 3</div>
+            <div class="card col-2">Card 4</div>
+            <div class="card col-2">Card 5</div>
+        </div>
+
+    </div>
+    </div>
+    </main>
+
+    <script src="assets/script.js"></script>
+</body>
