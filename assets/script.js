@@ -13,7 +13,8 @@ var getCurrentWeather = function() {
           console.log(response);
           response.json().then(function(data) {
             console.log(data);
-            displayWeather(data);
+            displayWeather(data)
+            getCityCoordinates(data);
           });
         } else {
           alert('Error: ' + response.statusText);
@@ -47,6 +48,18 @@ function displayWeather(data) {
     console.log(temp);
     console.log(wind);
     console.log(humidity);
+    
+    var tempEl = document.getElementById("temp");
+    tempEl.innerHTML = temp;
+
+    var windEl = document.getElementById("wind");
+    windEl.innerHTML = wind;
+
+    var humidityEl = document.getElementById("humidity");
+    humidityEl.innerHTML = humidity;
+
+    var cityNameEl = document.getElementById("search-term");
+    cityNameEl.innerHTML = data.name + ", " + data.sys.country;
 
     if (data.length === 0) {
         cityInfoEl.textContent = "No city found.";
@@ -54,5 +67,54 @@ function displayWeather(data) {
     };
 }
 
+function getCityCoordinates(data) {
+    var longitude = data.coord.lon;
+    var latitude = data.coord.lat;
+    console.log(longitude);
+    console.log(latitude);
+    forecast();
+
+    function forecast() {
+        var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=current,minutely,hourly&appid=e58ce6fcd378144b93c4b6f45a5073c8";
+
+        fetch(apiUrl)
+        .then(function(response) {
+        // request was successful
+        if (response.ok) {
+          console.log(response);
+          response.json().then(function(data) {
+            console.log(data);
+            // console.log(data.daily[0].dt);
+            getDates();
+            // console.log(data.daily[0].temp.day);
+            getTemp();
+          });
+        } else {
+          alert('Error: ' + response.statusText);
+        }
+      })
+      .catch(function(error) {
+        alert('Unable to connect to OpenWeather.');
+      });
+
+    //   function getDates(data) {
+    //     for (let i = 0; i < 5; i++) {
+    //     var timestamp = data.daily.dt;
+    //     console.log(data.daily.dt);
+    //     var date = new Date(timestamp);
+    //     console.log(date);
+    //     }
+    //   };
+
+      function getTemp(data) {
+        console.log(data.daily[0].temp.day);
+          for (let i = 0; i < 5; i++) {
+            var forecastTemp = Math.round(((data.daily[i].temp.day - 273.15) * 1.8) + 32);
+            console.log(forecastTemp);
+          }
+      }
+
+    };
+};
 
 searchEl.addEventListener("submit", searchHandler);
