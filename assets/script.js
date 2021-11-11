@@ -84,9 +84,9 @@ function getCityCoordinates(data) {
           console.log(response);
           response.json().then(function(data) {
             console.log(data);
-            // console.log(data.daily[0].dt);
+            console.log(data.daily[0].dt);
             getDates();
-            // console.log(data.daily[0].temp.day);
+            console.log(data.daily[0].temp.day);
             getTemp();
           });
         } else {
@@ -97,14 +97,14 @@ function getCityCoordinates(data) {
         alert('Unable to connect to OpenWeather.');
       });
 
-    //   function getDates(data) {
-    //     for (let i = 0; i < 5; i++) {
-    //     var timestamp = data.daily.dt;
-    //     console.log(data.daily.dt);
-    //     var date = new Date(timestamp);
-    //     console.log(date);
-    //     }
-    //   };
+      function getDates(data) {
+        for (let i = 0; i < 5; i++) {
+        var timestamp = data.daily.dt;
+        console.log(data.daily.dt);
+        var date = new Date(timestamp);
+        console.log(date);
+        }
+      };
 
       function getTemp(data) {
         console.log(data.daily[0].temp.day);
