@@ -33,11 +33,18 @@ var searchHandler = function(event) {
     var cityName = cityInputEl.value.trim();
     console.log(cityName);
     if (cityName) {
+        saveSearch();
         getCurrentWeather();
         cityInputEl.value = "";
     } else {
         alert("Please search for a city.");
     }
+
+    // save searches
+
+    function saveSearch() {
+        localStorage.setItem('City', cityName);
+    };
 };
 
 function displayWeather(data) {
@@ -85,9 +92,11 @@ function getCityCoordinates(data) {
           response.json().then(function(data) {
             console.log(data);
             console.log(data.daily[0].dt);
-            getDates();
+            getDates(data);
             console.log(data.daily[0].temp.day);
-            getTemp();
+            getTemp(data);
+            getWind(data);
+            getHumidity(data);
           });
         } else {
           alert('Error: ' + response.statusText);
@@ -99,22 +108,55 @@ function getCityCoordinates(data) {
 
       function getDates(data) {
         for (let i = 0; i < 5; i++) {
-        var timestamp = data.daily.dt;
-        console.log(data.daily.dt);
-        var date = new Date(timestamp);
-        console.log(date);
+            var milliseconds = data.daily[0].dt * 1000;
+            var dateObject = new Date(milliseconds);
+            var date = dateObject.toLocaleString("en-US");
+            console.log(date);
         }
       };
 
       function getTemp(data) {
-        console.log(data.daily[0].temp.day);
           for (let i = 0; i < 5; i++) {
             var forecastTemp = Math.round(((data.daily[i].temp.day - 273.15) * 1.8) + 32);
             console.log(forecastTemp);
           }
       }
 
+      function getWind(data) {
+        for (let i = 0; i < 5; i++) {
+            var forecastWind = data.daily[0].wind_speed;
+            console.log(forecastWind);
+            }
+        };
+
+    function getHumidity(data) {
+        for (let i = 0; i < 5; i++) {
+            var forecastHumidity = data.daily[0].humidity;
+            console.log(forecastHumidity);
+            }; 
+        };
     };
 };
 
+function showPrevious() {
+    var values = [],
+        keys = Object.keys(localStorage),
+        i = keys.length;
+    while (i--) {
+        values.push(localStorage.getItem(keys[i]));
+    };
+    for (x = 0; x < values.length; x++) {
+        $(".previous-searches").prepend("<button class='previous-search mt-1'>" + values[x] + "</button>");
+    };
+};
+
+// function getSavedItems() {
+//     var savedSearchesEl = document.getElementById("saved-searches");
+//     var savedButton = document.createElement("button");
+//     savedButton.innterHTML = localStorage.getItem("City");
+//     savedSearchesEl.append(savedButton);
+
+// };
+
 searchEl.addEventListener("submit", searchHandler);
+showPrevious();
