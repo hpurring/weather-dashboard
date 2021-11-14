@@ -1,5 +1,5 @@
 var cityInfoEl = document.querySelector("#city-info");
-
+var savedItems = [];
 
 var getCurrentWeather = function() {
     // format the github api url
@@ -47,22 +47,22 @@ var searchHandler = function(event) {
 //     if city_list doesn't exist => create a new array, push the items and set in local storage
 //     else => use the city_list got from storage, push new item and set in local storage
     function saveSearch() {
-        cityList = JSON.parse(localStorage.getItem("City-List"));
-        console.log(cityList);
-        if (!cityList) {
-            savedItems = [];
-            savedItems.push(cityName);
+        if (!savedItems) {
+            savedItems.push(cityName);        
             localStorage.setItem("City-List", JSON.stringify(savedItems));
-            console.log(savedItems);
-            }
-        else {
-            savedItems = [];
-            savedItems.push(cityName);
+        } else {
+            cityList = localStorage.getItem("City-List");
             savedItems.push(cityList);
+            savedItems.push(cityName);        
             localStorage.setItem("City-List", JSON.stringify(savedItems));
-        }
-    };
+        };
+    };    
 };
+
+// function getHistory() {
+//     cityList = localStorage.getItem("City-List");
+//     showPrevious();
+// };
 
 function displayWeather(data) {
     // temp,  wind, humidity,
@@ -156,14 +156,10 @@ function getCityCoordinates(data) {
 };
 
 function showPrevious() {
-    var values = [],
-        keys = Object.keys(localStorage),
-        i = keys.length;
-    while (i--) {
-        values.push(localStorage.getItem(keys[i]));
-    };
-    for (x = 0; x < values.length; x++) {
-        $(".previous-searches").prepend("<button class='previous-search mt-1'>" + values[x] + "</button>");
+    var previousSearches = [];
+    previousSearches.push(localStorage.getItem("City-List"));
+    for (x = 0; x < previousSearches.length; x++) {
+        $("#previous-searches").append("<button class='previous-search mt-1'>" + previousSearches[x] + "</button>");
     };
 };
 
