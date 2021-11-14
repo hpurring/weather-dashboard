@@ -42,8 +42,25 @@ var searchHandler = function(event) {
 
     // save searches
 
+//     function saveSearch
+//     city list = fetch city list
+//     if city_list doesn't exist => create a new array, push the items and set in local storage
+//     else => use the city_list got from storage, push new item and set in local storage
     function saveSearch() {
-        localStorage.setItem('City', cityName);
+        cityList = JSON.parse(localStorage.getItem("City-List"));
+        console.log(cityList);
+        if (!cityList) {
+            savedItems = [];
+            savedItems.push(cityName);
+            localStorage.setItem("City-List", JSON.stringify(savedItems));
+            console.log(savedItems);
+            }
+        else {
+            savedItems = [];
+            savedItems.push(cityName);
+            savedItems.push(cityList);
+            localStorage.setItem("City-List", JSON.stringify(savedItems));
+        }
     };
 };
 
