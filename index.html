@@ -11,13 +11,13 @@
 </head>
 
 <body>
-    <header class="page-title text-center">
-        <h1 class="p-4">Weather Dashboard</h1>
+    <header class="page-title text-center bg-primary">
+        <h1 class="p-4 text-light">Weather Dashboard</h1>
     </header>
 
-    <main class="container">
-    <div class="row justify-content-md-center">
-    <div class="col-2 p-2">
+    <main class="container mt-5">
+    <div class="row justify-content-center">
+    <div class="col-2 p-2 align">
         <form id="search">
             <label for="city-search">Search for a city:</label>
             <br>
@@ -25,26 +25,53 @@
             <br><br>
             <button type="submit" value="Search" id="search-btn">Search</button>
         </form>
-        <div id="saved-searches">
-            <button class='previous-search mt-1'></button>
+        <br>
+        <div id="saved-searches" class="col">
+            <h4 id="saved-search-header"></h4>
         </div>
     </div>
 
     <div id="search-results" class="col-10">
-        <h2>Current weather for: <span id="search-term"></span></h2>
+        <h2 id="search-term"></h2>
 
         <div id="city-info">
-            <p>Temperature: <span id="temp"></span>°F</p>
-            <p>Wind: <span id="wind"></span> mph</p>
-            <p>Humidity: <span id="humidity"></span>%</p>
+            <p id="temp"></p>
+            <p id="wind"></p>
+            <p id="humidity"></p>
         </div>
 
+        <h3 id="header"></h3>
         <div id="forecast" class="row">
-            <div class="card col-2">Card 1</div>
-            <div class="card col-2">Card 2</div>
-            <div class="card col-2">Card 3</div>
-            <div class="card col-2">Card 4</div>
-            <div class="card col-2">Card 5</div>
+            <div class="card-1 col-2">
+                <p><span id="date1" class="font-weight-bold"></span></p>
+                <p><span id="temp1"></span></p>
+                <p><span id="wind1"></span></p>
+                <p><span id="humidity1"></span></p>
+            </div>
+            <div class="card-2 col-2">
+                <p><span id="date2" class="font-weight-bold"></span></p>
+                <p><span id="temp2"></span></p>
+                <p><span id="wind2"></span></p>
+                <p><span id="humidity2"></span></p>
+            </div>
+            <div class="card-3 col-2">
+                <p><span id="date3" class="font-weight-bold"></span></p>
+                <p><span id="temp3"></span></p>
+                <p><span id="wind3"></span></p>
+                <p><span id="humidity3"></span></p>
+            </div>
+            <div class="card-4 col-2">
+                <p><span id="date4" class="font-weight-bold"></span></p>
+                <p><span id="temp4"></span></p>
+                <p><span id="wind4"></span></p>
+                <p><span id="humidity4"></span></p>
+            </div>
+            <div class="card-5 col-2">
+                <p><span id="date5" class="font-weight-bold"></span></p>
+                <p><span id="temp5"></span></p>
+                <p><span id="wind5"></span></p>
+                <p><span id="humidity5"></span></p>
+            </div>
         </div>
 
     </div>
