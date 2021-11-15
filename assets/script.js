@@ -239,10 +239,9 @@ function getCityCoordinates(data) {
 
 function showPrevious() {
     var previousSearches = JSON.parse(localStorage.getItem("City-List"));
-    var savedSearchHeader = document.getElementById("saved-search-header");
-    savedSearchHeader.innerHTML = "Saved Searches";
     if (previousSearches) {
-        
+      var savedSearchHeader = document.getElementById("saved-search-header");
+      savedSearchHeader.innerHTML = "Saved Searches";
     for (let x = 0; x < previousSearches.length; x++) {
         $("#saved-searches").append("<button class='previous-search mt-1'>" + previousSearches[x] + "</button>");
 
@@ -254,7 +253,7 @@ function showPrevious() {
     var searchButtons = document.getElementsByClassName("previous-search");
     var buttonInfo = Array.from(searchButtons);
     for (let i = 0; i < buttonInfo.length; i++) {
-        addEventListener('click', function() {
+        buttonInfo[i].addEventListener('click', function() {
             // format the github api url
             var apiUrl = 'https://api.openweathermap.org/data/2.5/weather?q=' + buttonInfo[i].innerHTML + '&appid=e58ce6fcd378144b93c4b6f45a5073c8';
               
