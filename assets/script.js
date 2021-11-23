@@ -40,8 +40,14 @@ var searchHandler = function(event) {
         alert("Please search for a city.");
     }
 
-    // save searches
+    $('#clear').on('click',()=> {
+      console.log("Hi");
+      localStorage.clear('City-List');
+    });
+    
+ 
 
+    // save searches
 //     function saveSearch
 //     city list = fetch city list
 //     if city_list doesn't exist => create a new array, push the items and set in local storage
@@ -65,11 +71,12 @@ var searchHandler = function(event) {
 //     showPrevious();
 // };
 
+//display data
 function displayWeather(data) {
-    // temp,  wind, humidity,
     var temp = Math.round(((data.main.temp - 273.15) * 1.8) + 32);
     var wind = data.wind.speed;
     var humidity = data.main.humidity;
+   
     console.log(temp);
     console.log(wind);
     console.log(humidity);
@@ -115,6 +122,7 @@ function getCityCoordinates(data) {
             console.log(data.daily[0].dt);
             getDates(data);
             console.log(data.daily[0].temp.day);
+            getIcon(data);
             getTemp(data);
             getWind(data);
             getHumidity(data);
@@ -140,22 +148,23 @@ function getCityCoordinates(data) {
             dateArray.push(date);
         }
 
-        var date1 = document.getElementById("date1");
-        date1.innerHTML = dateArray[0];
-
-        var date2 = document.getElementById("date2");
-        date2.innerHTML = dateArray[1];
-
-        var date3 = document.getElementById("date3");
-        date3.innerHTML = dateArray[2];
-
-        var date4 = document.getElementById("date4");
-        date4.innerHTML = dateArray[3];
-
-        var date5 = document.getElementById("date5");
-        date5.innerHTML = dateArray[4];
+        var dates = ['#date1','#date2','#date3','#date4','#date5']
+        
+        dates.forEach(date => {
+          $(date).text(dateArray[0]);
+        });
 
       };
+
+      function getIcon(data) {
+        for (let i = 0; i < 5; i++) {
+          var iconCode = data.daily[i].weather[0].icon;
+          console.log(iconCode);
+          var iconUrl = "http://openweathermap.org/img/w/" + iconCode + ".png";
+          $(`#icon${i+1}`).append('<img id="wicon"' + [i+1] + ' src=' + iconUrl + ' />')
+          };
+        };
+      
 
       function getTemp(data) {
         tempArray = [];          
@@ -165,78 +174,30 @@ function getCityCoordinates(data) {
         }
         console.log(tempArray);
 
-        var temp1 = document.getElementById("temp1");
-        temp1.innerHTML = "Temperature: " + tempArray[0] + "°F";
-
-        var temp2 = document.getElementById("temp2");
-        temp2.innerHTML = "Temperature: " + tempArray[1] + "°F";
-
-        var temp3 = document.getElementById("temp3");
-        temp3.innerHTML = "Temperature: " + tempArray[2] + "°F";
-
-        var temp4 = document.getElementById("temp4");
-        temp4.innerHTML = "Temperature: " + tempArray[3] + "°F";
-
-        var temp5 = document.getElementById("temp5");
-        temp5.innerHTML = "Temperature: " + tempArray[4] + "°F";
-
-        //   var tempEl = document.getElementById("temp");
-        //     tempEl.innerHTML = temp;
+        for (let i = 1; i < 6; i++) {
+          $("#temp"+i).text(`Temperature: ${tempArray[i-1]} °F`)
+        }
       }
 
       function getWind(data) {
-        windArray = [];
         for (let i = 0; i < 5; i++) {
-            var forecastWind = data.daily[i].wind_speed;
-            windArray.push(forecastWind);
+            $(`#wind${i+1}`).text(`Wind: ${data.daily[i].wind_speed} mph`)
             }
-        console.log(windArray);
-        
-        var wind1 = document.getElementById("wind1");
-        wind1.innerHTML = "Wind: " + windArray[0] + " mph";
-
-        var wind2 = document.getElementById("wind2");
-        wind2.innerHTML = "Wind: " + windArray[1] + " mph";
-
-        var wind3 = document.getElementById("wind3");
-        wind3.innerHTML = "Wind: " + windArray[2] + " mph";
-
-        var wind4 = document.getElementById("wind4");
-        wind4.innerHTML = "Wind: " + windArray[3] + " mph";
-        
-        var wind5 = document.getElementById("wind5");
-        wind5.innerHTML = "Wind: " + windArray[4] + " mph";
-        };
+      };
 
     function getHumidity(data) {
         humidityArray = [];
         for (let i = 0; i < 5; i++) {
-            var forecastHumidity = data.daily[i].humidity;
-            humidityArray.push(forecastHumidity);
+            $(`#humidity${i+1}`).text(`Humidity: ${data.daily[i].humidity}%`)
             };
-            console.log(humidityArray); 
-
-        var hum1 = document.getElementById("humidity1");
-        hum1.innerHTML = "Humidity: " + humidityArray[0] + "%";
-
-        var hum2 = document.getElementById("humidity2");
-        hum2.innerHTML = "Humidity: " + humidityArray[1] + "%";
-
-        var hum3 = document.getElementById("humidity3");
-        hum3.innerHTML = "Humidity: " + humidityArray[2] + "%";
-
-        var hum4 = document.getElementById("humidity4");
-        hum4.innerHTML = "Humidity: " + humidityArray[3] + "%";
-
-        var hum5 = document.getElementById("humidity5");
-        hum5.innerHTML = "Humidity: " + humidityArray[4] + "%";
 
         };
 
-
-    };
+  };
+  
 };
 
+// show previous searches
 function showPrevious() {
     var previousSearches = JSON.parse(localStorage.getItem("City-List"));
     if (previousSearches) {
@@ -281,8 +242,6 @@ function showPrevious() {
     // buttonInfo.forEach(v => v.addEventListener('click', function() {
     //     console.log(buttonInfo);
     // }));
-
-
 
 
 searchEl.addEventListener("submit", searchHandler);
