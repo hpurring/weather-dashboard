@@ -28,6 +28,7 @@ var getCurrentWeather = function() {
 var searchEl = document.querySelector("#search");
 var cityInputEl = document.querySelector("#city-name");
 
+//search for a city
 var searchHandler = function(event) {
     event.preventDefault();
     var cityName = cityInputEl.value.trim();
@@ -48,10 +49,7 @@ var searchHandler = function(event) {
  
 
     // save searches
-//     function saveSearch
-//     city list = fetch city list
-//     if city_list doesn't exist => create a new array, push the items and set in local storage
-//     else => use the city_list got from storage, push new item and set in local storage
+//     
     function saveSearch() {
         var cityList = JSON.parse(localStorage.getItem("City-List"));
         if (!cityList) {
@@ -66,12 +64,8 @@ var searchHandler = function(event) {
     };    
 };
 
-// function getHistory() {
-//     cityList = localStorage.getItem("City-List");
-//     showPrevious();
-// };
 
-//display data
+//display forecast data
 function displayWeather(data) {
     var temp = Math.round(((data.main.temp - 273.15) * 1.8) + 32);
     var wind = data.wind.speed;
@@ -102,6 +96,7 @@ function displayWeather(data) {
     };
 }
 
+//access city coordinates to plug into forecast data
 function getCityCoordinates(data) {
     var longitude = data.coord.lon;
     var latitude = data.coord.lat;
@@ -156,6 +151,7 @@ function getCityCoordinates(data) {
 
       };
 
+      // get weather icons
       function getIcon(data) {
         for (let i = 0; i < 5; i++) {
           var iconCode = data.daily[i].weather[0].icon;
@@ -165,7 +161,7 @@ function getCityCoordinates(data) {
           };
         };
       
-
+      //get temperatures
       function getTemp(data) {
         tempArray = [];          
         for (let i = 0; i < 5; i++) {
@@ -179,22 +175,21 @@ function getCityCoordinates(data) {
         }
       }
 
+      //get wind speeds
       function getWind(data) {
         for (let i = 0; i < 5; i++) {
             $(`#wind${i+1}`).text(`Wind: ${data.daily[i].wind_speed} mph`)
             }
       };
-
+    
+    //get humidity levels
     function getHumidity(data) {
         humidityArray = [];
         for (let i = 0; i < 5; i++) {
             $(`#humidity${i+1}`).text(`Humidity: ${data.daily[i].humidity}%`)
             };
-
         };
-
   };
-  
 };
 
 // show previous searches
