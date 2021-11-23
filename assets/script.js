@@ -104,6 +104,8 @@ function getCityCoordinates(data) {
     console.log(latitude);
     forecast();
 
+
+    //get forecast data
     function forecast() {
         var apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat=" + latitude + "&lon=" + longitude + "&exclude=current,minutely,hourly&appid=e58ce6fcd378144b93c4b6f45a5073c8";
 
@@ -121,6 +123,7 @@ function getCityCoordinates(data) {
             getTemp(data);
             getWind(data);
             getHumidity(data);
+            getUv(data);
           });
         } else {
           alert('Error: ' + response.statusText);
@@ -189,6 +192,26 @@ function getCityCoordinates(data) {
             $(`#humidity${i+1}`).text(`Humidity: ${data.daily[i].humidity}%`)
             };
         };
+
+    //get UV index
+    function getUv(data) {
+      var uvEl = document.getElementById("uv-index");
+      uvIndex = data.daily[0].uvi;
+      console.log(uvIndex);
+      uvEl.innerHTML = "UV Index: " + uvIndex;
+
+      if (uvIndex < 4) {
+        uvEl.classList.add("bg-success");
+        uvEl.classList.add("text-light");
+      } else if (uvIndex < 8) {
+        uvEl.classList.add("bg-warning");
+        uvEl.classList.add("text-dark");
+      } else {
+        uvEl.classList.add("bg-danger");
+        uvEl.classList.add("text-light");
+      };
+
+    }
   };
 };
 
